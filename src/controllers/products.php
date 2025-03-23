@@ -12,4 +12,9 @@ class Products
 
         require "views/product-list.php";
     }
+
+    public function show()
+    {
+        require "views/product-show.php";
+    }
 }
