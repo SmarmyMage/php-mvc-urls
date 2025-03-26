@@ -1,14 +1,32 @@
 <?php
 
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-// echo $path. "<br>";
-$segments = explode('/', $path);
-// print_r($segments);
-// get the controller and action from the query string
-$controller = $segments[4]; // get the controller name from the URL for server
-$action = $segments[5]; // get the action name from the URL for server 
-// $controller = $segments[1]; // get the controller name from the URL for local
-// $action = $segments[2]; // get the action name from the URL for local
+
+// include the router file with the Router class definition
+require "src/router.php";
+
+// create a new Router object from the Router class
+$router = new Router;
+
+
+// begin adding routes to the router table
+$router->add("/", ["controller" => "home", "action" => "index"]);
+$router->add("/products", ["controller" => "products", "action" => "index"]);
+$router->add("/products/show", ["controller" => "products", "action" => "show"]);
+
+// call to matchRoute() to return an array of $params from $routes
+$params = $router->matchRoute($path);
+
+// check for non-existent route
+if ($params === false) {
+
+    exit("No matching route");
+
+}
+
+// edit these variables to assign values from $params array from Router class
+$controller = $params["controller"];
+$action = $params["action"];
 
 // require the necessary controller using the variable value
 require "src/controllers/$controller.php";
