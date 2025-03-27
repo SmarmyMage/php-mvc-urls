@@ -1,6 +1,19 @@
 <?php
 
-$path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+// $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
+// remove the directory path the script resides in (if any)
+$scriptDir = dirname($_SERVER['SCRIPT_NAME']);
+$basePath = rtrim($scriptDir, '/');
+
+// remove base path from URI
+if (strpos($uri, $basePath) === 0) {
+    $uri = substr($uri, strlen($basePath));
+}
+
+// ensure it starts with a forward slash
+$path = '/' . ltrim($uri, '/');
 
 // include the router file with the Router class definition
 require "src/router.php";
