@@ -1,5 +1,7 @@
 <?php
 
+namespace Framework;
+
 class Router
 {
     // create array to hold routes from route table

@@ -16,11 +16,17 @@ if (strpos($uri, $basePath) === 0) {
 $path = '/' . ltrim($uri, '/');
 
 // include the router file with the Router class definition
-require "src/router.php";
+require "src/Framework/Router.php";
+
+spl_autoload_register( function (string $class_name) {
+
+    // var_dump("src/" . str_replace("\\", "/", $class_name) . ".php");
+    require "src/" . str_replace("\\", "/", $class_name) . ".php";
+
+});
 
 // create a new Router object from the Router class
-$router = new Router;
-
+$router = new Framework\Router;
 
 // begin adding routes to the router table
 $router->add("/", ["controller" => "home", "action" => "index"]);
@@ -42,7 +48,7 @@ $controller = $params["controller"];
 $action = $params["action"];
 
 // require the necessary controller using the variable value
-require "src/controllers/$controller.php";
+$controller = "App\Controllers\\" . ucwords($params["controller"]);
 
 // assign the name of the desired controller to a $controller_object variable
 $controller_object = new $controller;
