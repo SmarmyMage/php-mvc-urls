@@ -8,7 +8,7 @@ class Products
 {
     public function index()
     {
-        // require "src/models/product.php";
+        // require "src/App/Models/Product.php";
 
         $model = new Product;
 
