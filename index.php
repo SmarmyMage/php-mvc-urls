@@ -37,6 +37,7 @@ $router->add("/product/{slug:[\w-]+}", ["controller" => "products", "action" => 
 $router->add("/{controller}/{id:\d+}/{action}");
 $router->add("/home/index", ["controller" => "home", "action" => "index"]);
 $router->add("/products", ["controller" => "products", "action" => "index"]);
+$router->add("/products/index", ["controller" => "products", "action" => "index"]);
 $router->add("/products/show", ["controller" => "products", "action" => "show"]);
 $router->add("/", ["controller" => "home", "action" => "index"]);
 $router->add("/{controller}/{action}");
