@@ -47,9 +47,22 @@ $params = $router->matchRoute($path);
 // check for non-existent route
 if ($params === false) {
 
-    exit("No matching route");
+    throw new PageNotFoundException("No matching route for '$path'.");
 
 }
+
+if ( !empty($params["id"]) ) {
+
+    $id = $params["id"];
+
+} else {
+
+    $id = NULL;
+
+}
+
+$action = $params["action"];
+$controller = "App\Controllers\\" . ucwords($params["controller"]);
 
 // edit these variables to assign values from $params array from Router class
 $controller = $params["controller"];
