@@ -22,7 +22,7 @@ class Router
         // decodes special characters in URL
         $path = urldecode($path);
 
-        // trims the preceeding forward slash / from URL segments
+        // trims the preceding forward slash / from URL segments
         $path = trim($path, "/");
 
         // step through the routes table for matching route
@@ -31,17 +31,17 @@ class Router
             // call getURLData method to process route path from route table
             $pattern = $this->getURLData($route["path"]);
 
-            // echo $pattern, "\n";
-
             if (preg_match($pattern, $path, $matches)) {
 
                 $matches = array_filter($matches, "is_string", ARRAY_FILTER_USE_KEY);
 
+                // Ensure all parameters are strings
+                $matches = array_map('strval', $matches);
+
                 // merge existing simple URL patterns with new variable patterns
                 $params = array_merge($matches, $route["params"]);
 
-                // add to check the path segments
-                // print_r($params);
+                // print_r($params); // Debugging output
 
                 return $params;
             }

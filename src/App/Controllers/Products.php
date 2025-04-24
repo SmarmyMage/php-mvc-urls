@@ -35,8 +35,8 @@ class Products
 
     public function show(string $id = NULL)
     {
+        // var_dump($id);
         $model = new Product;
-
         $product = $model->find($id);
 
         if ($product === false) {

@@ -43,6 +43,8 @@ class Product
     // passed from the index.php page in the site root directory
     public function find(string $id): array|bool
     {
+        // die($id);
+        // var_dump($id);
         $conn = $this->getConnection();
 
         $sql = "SELECT * FROM `products` WHERE id = :id";
@@ -53,6 +55,9 @@ class Product
 
         $stmt->execute();
 
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        // var_dump($result);
+
+        return $result;
     }
 }

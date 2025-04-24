@@ -43,7 +43,7 @@ $router->add("/{controller}/{action}");
 
 // call to matchRoute() to return an array of $params from $routes
 $params = $router->matchRoute($path);
-
+// print_r($params); // Debugging output
 // check for non-existent route
 if ($params === false) {
 
@@ -75,4 +75,4 @@ $controller = "App\Controllers\\" . ucwords($params["controller"]);
 $controller_object = new $controller;
 
 // call the method from the controller using the $action value
-$controller_object->$action();
+$controller_object->$action($id);
