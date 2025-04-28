@@ -47,8 +47,15 @@ $params = $router->matchRoute($path);
 // check for non-existent route
 if ($params === false) {
 
-    throw new PageNotFoundException("No matching route for '$path'.");
+    exit("No matching route");
+    
+}
 
+// add modified code to throw a page not found exception
+if ($params === false) {
+
+    throw new PageNotFoundException("No matching route for '$path'.");
+    
 }
 
 if ( !empty($params["id"]) ) {
