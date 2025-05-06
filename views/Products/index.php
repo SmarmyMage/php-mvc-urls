@@ -1,6 +1,8 @@
 <nav>
         <ul>
             <li><a href="/">Home</a></li>
+            <li><a href="/products/">Products</a></li>
+            <li><a href="/products/new">New Product</a></li>
         </ul>
     </nav>
     <h1>Products</h1>

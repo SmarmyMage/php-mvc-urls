@@ -60,4 +60,119 @@ class Product
 
         return $result;
     }
+
+    public function update(string $id, array $data): bool
+    {
+        if ( ! $this->validate($data) ) {
+            return false;
+        }
+
+        unset($data["id"]);
+
+        $fields = array_keys($data);
+
+        array_walk($fields, function (&$value) {
+            $value = "$value = ?";
+        });
+
+        $sql = "UPDATE `products` SET " . implode(", ", $fields) . " WHERE id = ?";
+
+        $conn = $this->getConnection();
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(1, $data["name"], PDO::PARAM_STR);
+        $stmt->bindValue(2, $data["description"], PDO::PARAM_STR);
+        $stmt->bindValue(3, $id, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+
+    public function validate(array $data): bool
+    {
+        // check if name is empty
+        if (empty($data["name"])) {
+            return false;
+        }
+
+        // check if description is empty
+        if (empty($data["description"])) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function insert()
+    {
+        // create a data array to hold form field data
+        $data = [
+            "name" => $_POST["name"],
+            "description" => $_POST["description"]
+        ];
+
+        // validate the data
+        if ( ! $this->validate($data) ) {
+            return false;
+        }
+
+        // create a string of field names for the SQL statement
+        $fields = implode(", ", array_keys($data));
+
+        // create a string of placeholders for the SQL statement
+        $placeholders = ":" . implode(", :", array_keys($data));
+
+        // create the SQL statement
+        $sql = "INSERT INTO `products` ($fields) VALUES ($placeholders)";
+
+        // establish db connection
+        $conn = $this->getConnection();
+
+        // prepare the SQL statement
+        $stmt = $conn->prepare($sql);
+
+        // bind the values to the placeholders in the SQL statement
+        foreach ($data as $key => $value) {
+            $stmt->bindValue(":$key", $value, PDO::PARAM_STR);
+        }
+
+        // execute the SQL statement and return true on success or false on failure
+        return $stmt->execute();
+    }
+
+    public function edit(string $id = NULL)
+    {
+        $model = new Product;
+
+        $product = $model->find($id);
+
+        if ($product === false) {
+
+            throw new PageNotFoundException("Product not found");
+
+        }
+
+        $viewer = new Viewer;
+
+        echo $viewer->render("shared/header.php", [
+            "title" => "Edit Product"
+        ]);
+
+        echo $viewer->render("Products/edit.php", [
+            "product" => $product
+        ]);
+    }
+
+    public function delete(string $id): bool
+    {
+        $sql = "DELETE FROM `products` WHERE id = :id";
+
+        $conn = $this->getConnection();
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
 }
