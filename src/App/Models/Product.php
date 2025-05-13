@@ -7,16 +7,17 @@ use PDO;
 class Product
 {
     // connect to the database
-    public function getConnection()
+    public function getConnection(): PDO
     {
         $dsn = "mysql:
-                host=localhost;
-                dbname=sherd_MartyAllen;
+                host={$_ENV['DB_HOST']};
+                dbname={$_ENV['DB_NAME']};
                 charset=utf8;
                 port=3306";
 
-        return new PDO($dsn, "sherd_MartyAllen", "KUE7r2kX34kf3", [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+        return new PDO($dsn, $_ENV['DB_USER'], $_ENV['DB_PASSWORD'], [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_EMULATE_PREPARES, false
         ]);
     }
 

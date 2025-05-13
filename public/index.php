@@ -16,14 +16,32 @@ if (strpos($uri, $basePath) === 0) {
 $path = '/' . ltrim($uri, '/');
 
 // include the router file with the Router class definition
-require "src/Framework/Router.php";
+// require "src/Framework/Router.php";
 
-spl_autoload_register( function (string $class_name) {
+define("ROOT_PATH", dirname(__DIR__));
+// add the new WEB_ROOT definition to match the location of your project on the new server
+// Change the AvatarName to the avatar name of your project folder on the new server
+define("WEB_ROOT", "/webdev/MartyAllen/php-mvc-app/public/");
 
-    // var_dump("src/" . str_replace("\\", "/", $class_name) . ".php");
-    require "src/" . str_replace("\\", "/", $class_name) . ".php";
+// remove the following line
+// $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+// add this line with the WEB_ROOT reference
+$path = str_replace(WEB_ROOT, "", parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 
+// the autoloader stays the same
+spl_autoload_register(function (string $class_name) {
+
+    require ROOT_PATH . "/src/" . str_replace("\\", "/", $class_name) . ".php";
 });
+
+$dotenv = new Framework\Dotenv;
+
+$dotenv->load(ROOT_PATH . "/.env");
+
+// print_r($_ENV);
+
+$router = new Framework\Router;
+
 
 // create a new Router object from the Router class
 $router = new Framework\Router;

@@ -9,3 +9,10 @@
 </head>
 
 <body>
+    <nav>
+        <ul>
+            <li><a href="<?= WEB_ROOT ?>home">Home</a></li>
+            <li><a href="<?= WEB_ROOT ?>products">Products</a></li>
+            <li><a href="<?= WEB_ROOT ?>products/new">New Product</a></li>
+        </ul>
+    </nav>

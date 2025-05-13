@@ -74,7 +74,7 @@ class Products
 
         if ($model->update($id, $product)) {
 
-            header("Location: /products/{$id}/show");
+            header("Location: " . WEB_ROOT . "products/{$id}/show");
             exit;
 
         } else {
@@ -109,7 +109,7 @@ class Products
         if ($insertID) {
 
             // use insertID to redirect the user to the product page for the new product
-            header("Location: /products/{$insertID}/show");
+            header("Location: " . WEB_ROOT . "products/{$insertID}/show");
             exit;
 
         } else {
@@ -174,7 +174,7 @@ class Products
 
             $model->delete($id);
 
-            header("Location: /products/index");
+            header("Location: " . WEB_ROOT . "products/index");
             exit;
         }
 
